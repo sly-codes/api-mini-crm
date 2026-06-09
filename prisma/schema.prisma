@@ -18,8 +18,8 @@ model User {
   contact        String?
   photoUrl       String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
   createdBy String?
@@ -27,4 +27,26 @@ model User {
   deletedBy String?
 
   @@map("users")
+}
+
+model Company {
+  id       String  @id @default(uuid())
+  name     String
+  email    String  @unique
+  contact  String
+  website  String?
+  logo     String?
+  ncc      String @unique
+  location String?
+  activity String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  createdBy  String
+  updatedBy String?
+  deletedBy String?
+
+  @@map("companies")
 }

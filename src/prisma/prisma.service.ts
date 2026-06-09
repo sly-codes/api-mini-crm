@@ -11,7 +11,7 @@ export class PrismaService extends PrismaClient {
 
     super({
       adapter,
-      log: ['query', 'error', 'warn'],
+      log: ['query', 'info', 'error', 'warn'],
     });
   }
 }
