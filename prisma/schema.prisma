@@ -48,5 +48,58 @@ model Company {
   updatedBy String?
   deletedBy String?
 
+  contacts Contact[]
+  opportunity Opportunity[]
+
   @@map("companies")
+}
+
+model Contact {
+  id String @id @default(uuid())
+  firstName String
+  lastName String
+  email String @unique
+  contact String
+  position String?
+  company Company @relation(fields: [companyId], references: [id])
+  companyId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  createdBy String
+  updatedBy String?
+  deletedBy String?
+  opportunity Opportunity[]
+  
+  @@map("contacts")
+}
+
+model Opportunity {
+  id String @id @default(uuid())
+  title String
+  amount Float @default(0)
+  closeDate DateTime
+  status OpportunityStatus
+  contactId String
+  companyId String
+  company Company @relation(fields: [companyId], references: [id])
+  contact Contact @relation(fields: [contactId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  createdBy String
+  updatedBy String?
+  deletedBy String?
+
+  @@map("opportunities")
+}
+
+enum OpportunityStatus {
+  PROSPECT
+  QUALIFIED
+  PROPOSAL
+  WON
+  LOST
 }

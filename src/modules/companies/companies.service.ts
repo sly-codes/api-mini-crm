@@ -26,17 +26,14 @@ export class CompaniesService {
   }
 
   async findAll(page: number, limit: number) {
-    
     const skip = (page - 1) * limit;
 
-    const [data, total] = await this.prisma.$transaction([
+    const [data, total] = await Promise.all([
       this.prisma.company.findMany({
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        where: {
-          deletedAt: null,
-        },
+        where: { deletedAt: null },
       }),
 
       this.prisma.company.count({
@@ -62,7 +59,7 @@ export class CompaniesService {
       },
     });
 
-    if(!company) throw new NotFoundException('Company not found')
+    if (!company) throw new NotFoundException('Company not found');
 
     return company;
   }
@@ -74,7 +71,7 @@ export class CompaniesService {
       where: {
         id: companyId,
       },
-      data: {...dto, updatedBy: userId},
+      data: { ...dto, updatedBy: userId },
     });
   }
 
@@ -87,7 +84,7 @@ export class CompaniesService {
         deletedAt: null,
       },
 
-      data: {deletedAt: new Date(), deletedBy: userId}
+      data: { deletedAt: new Date(), deletedBy: userId },
     });
   }
 }

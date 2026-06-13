@@ -1,6 +1,10 @@
+import { neonConfig } from '@neondatabase/serverless';
 import { Injectable } from '@nestjs/common';
 import { PrismaNeon } from '@prisma/adapter-neon';
 import { PrismaClient } from '@prisma/client';
+import ws from 'ws';
+
+neonConfig.webSocketConstructor = ws;
 
 @Injectable()
 export class PrismaService extends PrismaClient {
