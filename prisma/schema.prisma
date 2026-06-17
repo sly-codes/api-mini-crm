@@ -71,6 +71,7 @@ model Contact {
   updatedBy String?
   deletedBy String?
   opportunity Opportunity[]
+  task Task[]
   
   @@map("contacts")
 }
@@ -92,8 +93,34 @@ model Opportunity {
   createdBy String
   updatedBy String?
   deletedBy String?
+  task Task[]
 
   @@map("opportunities")
+}
+
+model Task {
+  id String @id @default(uuid())
+  title String 
+  description String?
+  status TaskStatus 
+  contactId String?
+  opportunityId String?
+  contact Contact? @relation(fields: [contactId], references: [id])
+  opportunity Opportunity? @relation(fields: [opportunityId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  createdBy String
+  updatedBy String?
+  deletedBy String?
+
+  @@map("tasks")
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
 }
 
 enum OpportunityStatus {

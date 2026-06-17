@@ -7,6 +7,8 @@ import { CompaniesModule } from './modules/companies/companies.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ContactsModule } from './modules/contacts/contacts.module';
 import { OpportunitiesModule } from './modules/opportunities/opportunities.module';
+import { TasksModule } from './modules/tasks/tasks.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { OpportunitiesModule } from './modules/opportunities/opportunities.modul
     CompaniesModule,
     ContactsModule,
     OpportunitiesModule,
+    TasksModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
