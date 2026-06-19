@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { MyFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,10 +11,16 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
+      // supprime les champs non déclarés dans le DTO
       whitelist: true,
+      // rejette la requête si champs inconnu présent
       forbidNonWhitelisted: true,
+      // transforme automatiquement les types (string vers number pour les params)
+      transform: true,
     }),
   );
+
+  app.useGlobalFilters(new MyFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Mini CRM')
@@ -26,10 +33,10 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3001;
 
-   app.enableCors({
-     origin: 'http://localhost:4200',
-     credentials: true,
-   });
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    credentials: true,
+  });
 
   await app.listen(port);
 
