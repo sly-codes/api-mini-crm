@@ -5,6 +5,8 @@ import {
   HttpException,
 } from '@nestjs/common';
 
+
+
 @Catch(HttpException)
 export class MyFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
@@ -27,3 +29,5 @@ export class MyFilter implements ExceptionFilter {
     });
   }
 }
+
+

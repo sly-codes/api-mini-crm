@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { MyFilter } from './common/filters/http-exception.filter';
+import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,7 +21,7 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalFilters(new MyFilter());
+  app.useGlobalFilters(new MyFilter(), new PrismaExceptionFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Mini CRM')
