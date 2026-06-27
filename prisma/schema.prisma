@@ -15,6 +15,7 @@ model User {
   lastName       String
   email          String  @unique
   hashedPassword String
+  role           Role   @default(USER)
   contact        String?
   photoUrl       String?
 
@@ -115,6 +116,11 @@ model Task {
   deletedBy String?
 
   @@map("tasks")
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 enum TaskStatus {

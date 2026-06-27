@@ -12,7 +12,9 @@ import {
 } from '@nestjs/common';
 import { OpportunityStatus } from '@prisma/client';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtGuard } from 'src/common/guards/jwt-guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 import type { User } from 'src/common/types/user.type';
 import { CreateOpportunityDto } from './dto/create-opportunity.dto';
 import { UpdateOpportunityDto } from './dto/update-opportunity.dto';
@@ -51,6 +53,8 @@ export class OpportunitiesController {
     return this.opportunitiesService.update(dto, user.id, id);
   }
 
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string, @CurrentUser() user: User) {
     return this.opportunitiesService.remove(id, user.id);

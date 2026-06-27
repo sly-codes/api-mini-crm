@@ -16,6 +16,8 @@ import type { User } from 'src/common/types/user.type';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @UseGuards(JwtGuard)
 @Controller('contacts')
@@ -50,6 +52,8 @@ export class ContactsController {
     return this.contactsService.update(id, dto, user.id);
   }
 
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string, @CurrentUser() user: User) {
     return this.contactsService.remove(id, user.id);
